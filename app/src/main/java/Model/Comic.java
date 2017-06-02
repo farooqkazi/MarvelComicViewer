@@ -13,6 +13,8 @@ public class Comic {
     private String description;
     private Creators creators;
     private ComicPrice[] prices;
+    private List<Image> images;
+
 
     public int getId() {
         return id;
@@ -62,4 +64,6 @@ public class Comic {
     public void setCreators(Creators creators) {
         this.creators = creators;
     }
+
+
 }

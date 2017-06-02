@@ -1,8 +1,5 @@
-package Presenter;
+package Networking;
 
-import java.util.List;
-
-import Model.Comic;
 import Model.MarvelResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -14,5 +11,5 @@ import retrofit2.http.Path;
 
 public interface MarvelTransaction {
     @GET("/v1/public/{endpoint}")
-    Call<MarvelResponse> getComics(@Path("endpoint")String endpoint);
+    Call<MarvelResponse> getDataFromEndpoint(@Path("endpoint")String endpoint);
 }

@@ -1,6 +1,4 @@
-package Presenter;
-
-import android.text.TextUtils;
+package Networking;
 
 import Model.Constants;
 import okhttp3.OkHttpClient;
