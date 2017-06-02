@@ -30,7 +30,7 @@ public class ListOfComicsPresenterImpl implements ListOfComicsPresenter, RemoteD
     @Override
     public void onRemoteResultObtained(List<Comic> result) {
         if(result!=null){
-            listOfComicsView.showText(result.get(0).getTitle());
+            listOfComicsView.showText(result);
         }
         else{
             Log.d("Result was null", "Presenter");
