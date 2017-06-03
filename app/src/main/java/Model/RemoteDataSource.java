@@ -2,11 +2,20 @@ package Model;
 
 import android.util.Log;
 
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
 import java.io.IOException;
 import java.util.List;
 
 import Networking.MarvelTransaction;
 import Networking.RetrofitGenerator;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,7 +33,10 @@ public class RemoteDataSource {
         Log.d(LOG_TAG, "In get data from endpoint");
         this.mRemoteDataSourceInterface = remoteDataSourceInterface;
         MarvelTransaction marvelTransaction = RetrofitGenerator.createService(MarvelTransaction.class);
-        Call<MarvelResponse> marvelResponse = marvelTransaction.getDataFromEndpoint(endPoint);
+        Observable<MarvelResponse> marvelResponse = marvelTransaction.getDataFromEndpoint(endPoint);
+        marvelResponse.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(getSubscriber());
+        /*
         marvelResponse.enqueue(new Callback<MarvelResponse>() {
             @Override
             public void onResponse(Call<MarvelResponse> call, Response<MarvelResponse> response) {
@@ -51,10 +63,39 @@ public class RemoteDataSource {
                 Log.d(LOG_TAG, t.getMessage());
             }
         });
+        */
 
     }
+    private Observer<MarvelResponse> getSubscriber(){
+        return new Observer<MarvelResponse>() {
+            @Override
+            public void onSubscribe(@NonNull Disposable d) {
 
+            }
+
+            @Override
+            public void onNext(@NonNull MarvelResponse marvelResponse) {
+                Log.d("Observable", marvelResponse.getData().getResults().get(0).getTitle());
+                if(mRemoteDataSourceInterface!=null){
+                    mRemoteDataSourceInterface.onRemoteResultObtained(marvelResponse.getData().getResults());
+                }
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                if(mRemoteDataSourceInterface!=null){
+                    mRemoteDataSourceInterface.onRemoteError(e);
+                }
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        };
+    }
     public interface RemoteDataSourceInterface{
         public void onRemoteResultObtained(List<Comic> result);
+        public void onRemoteError(Throwable t);
     }
 }

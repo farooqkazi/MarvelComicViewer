@@ -22,7 +22,7 @@ public class AdditionalParametersInterceptor implements Interceptor {
         Request originalRequest = chain.request();
         HttpUrl originalHttpUrl = originalRequest.url();
         HttpUrl modifiedUrl = originalHttpUrl.newBuilder().addQueryParameter(Constants.PARAM_LIMIT, Constants.COMICS_LIMIT)
-                                .build();
+                                     .build();
         Request.Builder requestBuilder = originalRequest.newBuilder().url(modifiedUrl);
         return chain.proceed(requestBuilder.build());
     }

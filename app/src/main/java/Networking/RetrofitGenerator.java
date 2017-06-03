@@ -3,6 +3,7 @@ package Networking;
 import Model.Constants;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -12,7 +13,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitGenerator {
     private static OkHttpClient.Builder mOkHttpClient = new OkHttpClient.Builder();
     private static Retrofit.Builder mRetrofitBuilder = new Retrofit.Builder().baseUrl(Constants.BASE_URL)
-                                                            .addConverterFactory(GsonConverterFactory.create());
+                                                            .addConverterFactory(GsonConverterFactory.create())
+                                                            .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+
     private static Retrofit mRetrofit = mRetrofitBuilder.build();
 
     public static <S> S createService(Class<S> serviceClass){

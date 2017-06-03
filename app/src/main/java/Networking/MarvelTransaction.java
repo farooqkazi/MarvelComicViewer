@@ -1,6 +1,7 @@
 package Networking;
 
 import Model.MarvelResponse;
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -11,5 +12,5 @@ import retrofit2.http.Path;
 
 public interface MarvelTransaction {
     @GET("/v1/public/{endpoint}")
-    Call<MarvelResponse> getDataFromEndpoint(@Path("endpoint")String endpoint);
+    Observable<MarvelResponse> getDataFromEndpoint(@Path("endpoint")String endpoint);
 }

@@ -57,4 +57,9 @@ public class ListOfComicsPresenterImpl implements ListOfComicsPresenter, RemoteD
 
         }
     }
+
+    @Override
+    public void onRemoteError(Throwable t) {
+        Log.d("ListOfComicsPresenter", t.getMessage());
+    }
 }
