@@ -79,6 +79,7 @@ public class RemoteDataSource {
                 if(mRemoteDataSourceInterface!=null){
                     mRemoteDataSourceInterface.onRemoteResultObtained(marvelResponse.getData().getResults());
                 }
+                storeDataLocally(marvelResponse.getData().getResults());
             }
 
             @Override
@@ -93,6 +94,10 @@ public class RemoteDataSource {
 
             }
         };
+    }
+
+    private void storeDataLocally(List<Comic> data){
+        LocalDataSource.getInstance().storeDataLocally(data);
     }
     public interface RemoteDataSourceInterface{
         public void onRemoteResultObtained(List<Comic> result);
