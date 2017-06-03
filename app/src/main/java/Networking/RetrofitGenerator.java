@@ -18,8 +18,13 @@ public class RetrofitGenerator {
     public static <S> S createService(Class<S> serviceClass){
 
             AuthenticationInterceptor authenticationInterceptor = new AuthenticationInterceptor();
+            AdditionalParametersInterceptor additionalParametersInterceptor =
+                                                new AdditionalParametersInterceptor();
             if(!mOkHttpClient.interceptors().contains(authenticationInterceptor)){
                 mOkHttpClient.addInterceptor(authenticationInterceptor);
+            }
+            if(!mOkHttpClient.interceptors().contains(additionalParametersInterceptor)){
+                mOkHttpClient.addInterceptor(additionalParametersInterceptor);
             }
             mRetrofitBuilder.client(mOkHttpClient.build());
             mRetrofit = mRetrofitBuilder.build();

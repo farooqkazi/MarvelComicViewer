@@ -2,6 +2,7 @@ package Model;
 
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.List;
 
 import Networking.MarvelTransaction;
@@ -36,8 +37,12 @@ public class RemoteDataSource {
                     Log.d(LOG_TAG, "Response was sucessful"+response.body().toString());
                 }
                 else{
-
-                    Log.d(LOG_TAG, "Response was not sucessful"+response.raw().body().toString());
+                    try {
+                        Log.d(LOG_TAG, "Response was not sucessful" + response.errorBody().string());
+                    }
+                    catch(IOException e){
+                        e.printStackTrace();
+                    }
                 }
             }
 

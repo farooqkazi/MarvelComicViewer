@@ -13,4 +13,6 @@ public class Constants {
     public static final String PARAM_HASH="hash";
     public static final String ALGORITHM_TYPE="MD5";
     public static final String COMICS_ENDPOINT="comics";
+    public static final String PARAM_LIMIT="limit";
+    public static final String COMICS_LIMIT="100";
 }
