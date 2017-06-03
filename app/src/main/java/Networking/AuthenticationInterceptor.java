@@ -35,8 +35,10 @@ public class AuthenticationInterceptor implements Interceptor {
             Request originalRequest = chain.request();
             HttpUrl originalHttpUrl = originalRequest.url();
             HttpUrl modifiedUrl = originalHttpUrl.newBuilder()
-
-                     .addQueryParameter(Constants.PARAM_TIMESTAMP, timestamp)
+                    .removeAllQueryParameters(Constants.PARAM_TIMESTAMP)
+                    .removeAllQueryParameters(Constants.PARAM_APIKEY)
+                    .removeAllQueryParameters(Constants.PARAM_HASH)
+                    .addQueryParameter(Constants.PARAM_TIMESTAMP, timestamp)
                     .addQueryParameter(Constants.PARAM_APIKEY, Constants.PUBLIC_KEY)
                     .addQueryParameter(Constants.PARAM_HASH, hashedAuthParameter)
                     .build();

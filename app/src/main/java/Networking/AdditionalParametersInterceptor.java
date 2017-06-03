@@ -21,8 +21,10 @@ public class AdditionalParametersInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request originalRequest = chain.request();
         HttpUrl originalHttpUrl = originalRequest.url();
-        HttpUrl modifiedUrl = originalHttpUrl.newBuilder().addQueryParameter(Constants.PARAM_LIMIT, Constants.COMICS_LIMIT)
-                                     .build();
+        HttpUrl modifiedUrl = originalHttpUrl.newBuilder()
+                                .removeAllQueryParameters(Constants.PARAM_LIMIT)
+                                .addQueryParameter(Constants.PARAM_LIMIT, Constants.COMICS_LIMIT)
+                                .build();
         Request.Builder requestBuilder = originalRequest.newBuilder().url(modifiedUrl);
         return chain.proceed(requestBuilder.build());
     }
