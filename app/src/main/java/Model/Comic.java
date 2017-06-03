@@ -65,5 +65,11 @@ public class Comic {
         this.creators = creators;
     }
 
+    public List<Image> getImages() {
+        return images;
+    }
 
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
 }

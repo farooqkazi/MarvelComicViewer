@@ -66,8 +66,11 @@ public class ListOfComics extends AppCompatActivity implements ListOfComicsView{
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.title.setText(mData.get(position).getTitle());
-
+            Comic comic = mData.get(position);
+            holder.title.setText(comic.getTitle());
+            if(mData.size()>0) {
+                mPresenter.getImages(ListOfComics.this, holder.poster, comic);
+            }
         }
 
         @Override

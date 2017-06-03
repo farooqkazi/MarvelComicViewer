@@ -14,5 +14,10 @@ public class Constants {
     public static final String ALGORITHM_TYPE="MD5";
     public static final String COMICS_ENDPOINT="comics";
     public static final String PARAM_LIMIT="limit";
+    public static final String PARAM_FORMAT="format";
+    public static final String PARAM_FORMAT_TYPE="formatType";
+    public static final String COMICS_FORMAT="comic";
+    public static final String COMICS_FORMAT_TYPE="comic";
     public static final String COMICS_LIMIT="100";
+    public static final String IMAGE_SIZE="landscape_xlarge";
 }
