@@ -12,7 +12,7 @@ public class Comic {
     private int pageCount;
     private String description;
     private Creators creators;
-    private ComicPrice[] prices;
+    private List<ComicPrice> prices;
     private List<Image> images;
 
 
@@ -49,11 +49,11 @@ public class Comic {
     }
 
 
-    public ComicPrice[] getPrices() {
+    public List<ComicPrice> getPrices() {
         return prices;
     }
 
-    public void setPrices(ComicPrice[] prices) {
+    public void setPrices(List<ComicPrice> prices) {
         this.prices = prices;
     }
 

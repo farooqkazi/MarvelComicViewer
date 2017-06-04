@@ -1,5 +1,7 @@
 package ComicDetails;
 
+import android.util.Pair;
+
 import java.util.List;
 
 /**
@@ -7,5 +9,5 @@ import java.util.List;
  */
 
 public interface ComicDetailsView {
-    void populateRecyclerView(List<String> data);
+    void populateRecyclerView(List<Pair<Integer, String>> data);
 }
