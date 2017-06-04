@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/list_of_comic_cl_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_list_of_comics"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    </LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/listofhome_fab_buy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@+id/rv_list_of_comics"
+        app:layout_anchorGravity="bottom|right"
+        app:srcCompat="@drawable/ic_shopping_cart_black_24dp"
+
+        app:useCompatPadding="true"
+        android:elevation="3dp"
+         />
+    </android.support.design.widget.CoordinatorLayout>

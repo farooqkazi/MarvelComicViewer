@@ -27,6 +27,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="Home.ListOfComics" />
         </activity>
+        <activity
+            android:name="Purchase.Purchase"
+            android:label="@string/title_activity_purchase"
+            android:parentActivityName="Home.ListOfComics"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="Home.ListOfComics" />
+        </activity>
     </application>
 
 </manifest>

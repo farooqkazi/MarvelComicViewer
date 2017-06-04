@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Marvel Comics Viewer</string>
     <string name="title_activity_comic_details">Details</string>
+    <string name="title_activity_purchase">Purchase</string>
+
+    <string name = "purchase_et_amount_hint">Enter Your Budget</string>
+    <string name="purchase_btn_find_text">Find</string>
 </resources>

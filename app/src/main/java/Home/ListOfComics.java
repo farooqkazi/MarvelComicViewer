@@ -1,6 +1,7 @@
 package Home;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import Purchase.Purchase;
 import com.example.marvelcomicsviewer.R;
 
 import java.util.ArrayList;
@@ -20,7 +22,6 @@ import java.util.List;
 import ComicDetails.ComicDetails;
 import Model.Comic;
 import Model.Constants;
-import Model.RemoteDataSource;
 
 public class ListOfComics extends AppCompatActivity implements ListOfComicsView{
     private ListOfComicsPresenter mPresenter;
@@ -37,6 +38,14 @@ public class ListOfComics extends AppCompatActivity implements ListOfComicsView{
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mPresenter = new ListOfComicsPresenterImpl(this);
         getRemoteData();
+        FloatingActionButton purchase = (FloatingActionButton) findViewById(R.id.listofhome_fab_buy);
+        purchase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startPurchase = new Intent(ListOfComics.this, Purchase.class);
+                startActivity(startPurchase);
+            }
+        });
     }
     private void getRemoteData(){
         mPresenter.getRemoteData(Constants.COMICS_ENDPOINT);
