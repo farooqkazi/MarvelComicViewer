@@ -5,7 +5,7 @@ package Model;
  */
 
 public class Constants {
-    public static final String BASE_URL="https://gateway.marvel.com/";
+    public static  String BASE_URL="https://gateway.marvel.com/"; //not final for tests
     public static final String PUBLIC_KEY="54306733de0f5cd1418aa05a85fa062a";
     public static final String PRIVATE_KEY="5de1fabcda2ea08912bd8b09bca4321f50563655";
     public static final String PARAM_APIKEY="apikey";
