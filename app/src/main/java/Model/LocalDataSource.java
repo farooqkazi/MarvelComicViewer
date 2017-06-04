@@ -9,7 +9,7 @@ import java.util.Map;
  */
 
 public class LocalDataSource {
-    private Map<Integer, Comic> mComicsCollection;
+    private Map<Integer, Comic> mComicsCollection=null;
     private static LocalDataSource INSTANCE;
 
     private LocalDataSource(){
@@ -25,13 +25,19 @@ public class LocalDataSource {
 
 
     public void storeDataLocally(List<Comic> comicsList){
-        mComicsCollection = new HashMap<Integer, Comic>(comicsList.size());
+        int size = (int) Math.ceil(comicsList.size()/0.75);
+        mComicsCollection = new HashMap<Integer, Comic>(size);
         for(Comic c:comicsList){
             mComicsCollection.put(c.getId(), c);
         }
     }
 
     public Comic getComicById(int id){
-        return mComicsCollection.get(id);
+        if(mComicsCollection!=null) {
+            return mComicsCollection.get(id);
+        }
+        else{
+            return null;
+        }
     }
 }

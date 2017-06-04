@@ -1,5 +1,6 @@
 package Home;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import com.example.marvelcomicsviewer.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import ComicDetails.ComicDetails;
 import Model.Comic;
 import Model.Constants;
 import Model.RemoteDataSource;
@@ -85,6 +87,14 @@ public class ListOfComics extends AppCompatActivity implements ListOfComicsView{
                 super(itemView);
                 title = (TextView) itemView.findViewById(R.id.comic_card_tv_title);
                 poster = (ImageView) itemView.findViewById(R.id.comic_card_iv_poster);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent startDetailsActivity = new Intent(ListOfComics.this, ComicDetails.class);
+                        startDetailsActivity.putExtra(Constants.ARG_ID, mData.get(getAdapterPosition()).getId());
+                        v.getContext().startActivity(startDetailsActivity);
+                    }
+                });
             }
         }
     }
