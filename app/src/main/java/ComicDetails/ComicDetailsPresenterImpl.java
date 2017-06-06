@@ -1,6 +1,9 @@
 package ComicDetails;
 
+import android.content.Context;
+import android.util.Log;
 import android.util.Pair;
+import android.widget.ImageView;
 
 import com.example.marvelcomicsviewer.R;
 
@@ -10,8 +13,10 @@ import java.util.List;
 import Model.Comic;
 import Model.Constants;
 import Model.Creators;
+import Model.Image;
 import Model.Item;
 import Model.LocalDataSource;
+import Networking.GlideOps;
 
 /**
  * Created by sidd on 04/06/17.
@@ -23,12 +28,32 @@ public class ComicDetailsPresenterImpl implements ComicDetailsPresenter {
         mComicsDetailsView = comicDetailsView;
     }
     @Override
-    public void getChosenComic(int comicId) {
+    public void getChosenComicDetails(int comicId) {
         Comic chosenComic = LocalDataSource.getInstance().getComicById(comicId);
         if(chosenComic!=null){
             mComicsDetailsView.populateRecyclerView(assembleDetails(chosenComic));
         }
     }
+
+    @Override
+    public void getImageForBanner(Context context, ImageView imageView, int comicId) {
+        Comic chosenComic = LocalDataSource.getInstance().getComicById(comicId);
+        if(chosenComic!=null) {
+            List<Image> images = chosenComic.getImages();
+            GlideOps glideOps = new GlideOps(context, imageView);
+            if (images.size() > 0) {
+                String url = images.get(0).getPath() + "/" + Constants.IMAGE_SIZE + "." + images.get(0).getExtension();
+                glideOps.beginOps(url, false);
+                mComicsDetailsView.showImageView(true);
+            } else {
+                mComicsDetailsView.showImageView(false);
+            }
+        }
+        else{
+            mComicsDetailsView.showImageView(false);
+        }
+    }
+
 
     private List<Pair<Integer, String>> assembleDetails(Comic chosenComic){
         List<Pair<Integer, String>> data = new ArrayList<Pair<Integer, String>>();

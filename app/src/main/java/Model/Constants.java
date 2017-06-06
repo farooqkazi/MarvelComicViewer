@@ -16,7 +16,7 @@ public class Constants {
     public static final String PARAM_LIMIT="limit";
     public static final String ARG_ID="id";
     public static final String COMICS_LIMIT="100";
-    public static final String IMAGE_SIZE="landscape_xlarge";
+    public static final String IMAGE_SIZE="landscape_incredible";
     public static final String DESCRIPTION_PLACEHOLDER="Description is not available for this comic";
     public static final String CREATORS_PLACEHOLDER="Creator information is not available for this comic";
 }

@@ -10,4 +10,5 @@ import java.util.List;
 
 public interface ComicDetailsView {
     void populateRecyclerView(List<Pair<Integer, String>> data);
+    void showImageView(boolean shouldShow);
 }

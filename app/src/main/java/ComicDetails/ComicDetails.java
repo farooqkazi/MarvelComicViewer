@@ -25,6 +25,7 @@ import java.util.List;
 import Home.ListOfComics;
 import Model.Comic;
 import Model.Constants;
+import Model.Image;
 import Model.LocalDataSource;
 import okhttp3.Interceptor;
 
@@ -33,10 +34,12 @@ public class ComicDetails extends AppCompatActivity implements ComicDetailsView{
     private List<Pair<Integer, String>> mData=new ArrayList<Pair<Integer, String>>();
     private ComicDetailsAdapter mComicDetailsAdapter;
     private ComicDetailsPresenterImpl mPresenter;
+    private ImageView mBanner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comic_details);
+        mBanner = (ImageView) findViewById(R.id.activity_comic_details_iv_banner);
         mComicDetails = (RecyclerView) findViewById(R.id.rv_comic_details);
         mPresenter = new ComicDetailsPresenterImpl(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -51,18 +54,17 @@ public class ComicDetails extends AppCompatActivity implements ComicDetailsView{
 
         int comicId = getIntent().getIntExtra(Constants.ARG_ID, -1);
         if(comicId>=0){
-            mPresenter.getChosenComic(comicId);
+            mPresenter.getChosenComicDetails(comicId);
+            setBanner(comicId);
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void setBanner(int comicId){
+        mPresenter.getImageForBanner(this, mBanner, comicId);
+
     }
 
     @Override
@@ -70,6 +72,16 @@ public class ComicDetails extends AppCompatActivity implements ComicDetailsView{
         mData.clear();
         mData.addAll(data);
         mComicDetailsAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showImageView(boolean shouldShow) {
+        if(shouldShow){
+            mBanner.setVisibility(View.VISIBLE);
+        }
+        else{
+            mBanner.setVisibility(View.GONE);
+        }
     }
 
     public class ComicDetailsAdapter extends RecyclerView.Adapter<ComicDetailsAdapter.ViewHolder>{
