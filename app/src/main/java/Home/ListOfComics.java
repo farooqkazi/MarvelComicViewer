@@ -2,6 +2,7 @@ package Home;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +23,7 @@ import java.util.List;
 import ComicDetails.ComicDetails;
 import Model.Comic;
 import Model.Constants;
+import Util.NetworkHelper;
 
 public class ListOfComics extends AppCompatActivity implements ListOfComicsView{
     private ListOfComicsPresenter mPresenter;
@@ -48,8 +50,24 @@ public class ListOfComics extends AppCompatActivity implements ListOfComicsView{
         });
     }
     private void getRemoteData(){
-        mPresenter.getRemoteData(Constants.COMICS_ENDPOINT);
-        //new RemoteDataSource().getDataFromEndpoint(Constants.COMICS_ENDPOINT);
+
+        if(NetworkHelper.isOnline(this)){
+            mPresenter.getRemoteData(Constants.COMICS_ENDPOINT);
+        }
+        else{
+          final Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),getResources().getString(R.string.nonetworkmessage)
+                    ,Snackbar.LENGTH_INDEFINITE);
+            snackbar.setAction(getResources().getString(R.string.snackbaraction), new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    snackbar.dismiss();
+                }
+            });
+            TextView snackText = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+            snackText.setMaxLines(5);
+            snackbar.show();
+        }
+
     }
 
 

@@ -31,7 +31,7 @@ public class GlideOps {
         }
         else{
             Glide.with(mContext).clear(mImageView);
-            mImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.mipmap.ic_launcher));
+            mImageView.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.deadpoolquestion));
         }
     }
 

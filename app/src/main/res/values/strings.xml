@@ -5,4 +5,6 @@
 
     <string name = "purchase_et_amount_hint">Enter Your Budget</string>
     <string name="purchase_btn_find_text">Find</string>
+    <string name="nonetworkmessage">Even the Spiderman needs a web connection</string>
+    <string name="snackbaraction">Dismiss</string>
 </resources>
