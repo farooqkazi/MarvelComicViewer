@@ -25,12 +25,15 @@ import Home.ListOfComics;
 import Model.Comic;
 import Util.ComicsListHelper;
 
-public class Purchase extends AppCompatActivity {
+public class Purchase extends AppCompatActivity implements PurchaseView {
     private Button mButton;
 
     private EditText mBudget;
     private RecyclerView mRecyclerView;
     private PurchaseResultAdapter mAdapter;
+    private PurchasePresenterImpl mPresenter;
+
+    private static final String AMOUNT_TAG="amount";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +41,12 @@ public class Purchase extends AppCompatActivity {
         setContentView(R.layout.activity_purchase);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mPresenter = new PurchasePresenterImpl(this);
         mButton = (Button) findViewById(R.id.purchase_btn_find);
 
         mBudget = (EditText) findViewById(R.id.purchase_et_amount);
         mRecyclerView = (RecyclerView) findViewById(R.id.purchase_rv_results);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
@@ -58,20 +55,43 @@ public class Purchase extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!TextUtils.isEmpty(mBudget.getText().toString())){
-                    setupRecyclerView();
+                    processClick(Float.parseFloat(mBudget.getText().toString()));
                 }
 
             }
         });
     }
-    private void setupRecyclerView(){
-        mAdapter = new PurchaseResultAdapter(ComicsListHelper.getComicsInPriceRange(Float.parseFloat(mBudget.getText().toString())));
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putFloat(AMOUNT_TAG, Float.parseFloat(mBudget.getText().toString()));
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        processClick(savedInstanceState.getFloat(AMOUNT_TAG));
+    }
+
+    private void processClick(float amount){
+        mPresenter.getComicsWithinBudget(amount);
+    }
+    private void setupRecyclerView(List<Comic> result){
+        mAdapter = new PurchaseResultAdapter(result);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
                 ((LinearLayoutManager)mRecyclerView.getLayoutManager()).getOrientation());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
         mRecyclerView.setAdapter(mAdapter);
     }
+
+    @Override
+    public void updateRecyclerView(List<Comic> result) {
+        setupRecyclerView(result);
+    }
+
     public class PurchaseResultAdapter extends RecyclerView.Adapter<PurchaseResultAdapter.ViewHolder>{
         private List<Comic> results;
 
