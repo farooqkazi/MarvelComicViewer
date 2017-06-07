@@ -5,11 +5,13 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Model.Comic;
 import Model.Constants;
 import Model.Image;
+import Model.LocalDataSource;
 import Model.RemoteDataSource;
 import Networking.GlideOps;
 
@@ -22,6 +24,12 @@ public class ListOfComicsPresenterImpl implements ListOfComicsPresenter, RemoteD
     public ListOfComicsPresenterImpl(ListOfComicsView view){
         this.listOfComicsView = view;
     }
+
+    @Override
+    public void onCreate(Context context) {
+        LocalDataSource.getInstance().init(context);
+    }
+
     @Override
     public void onItemClicked(int position) {
 
@@ -31,6 +39,17 @@ public class ListOfComicsPresenterImpl implements ListOfComicsPresenter, RemoteD
     public void getRemoteData(String endPoint) {
         new RemoteDataSource().getDataFromEndpoint(endPoint, this);
 
+    }
+
+    @Override
+    public void tryAndGetLocalData() {
+        List<Comic> cachedData = LocalDataSource.getInstance().getStoredData();
+        if(cachedData!=null){
+            listOfComicsView.showTextFromCache(cachedData);
+        }
+        else{
+            listOfComicsView.showTextFromCache(new ArrayList<Comic>());
+        }
     }
 
     @Override

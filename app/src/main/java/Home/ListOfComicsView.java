@@ -10,4 +10,5 @@ import Model.Comic;
 
 public interface ListOfComicsView {
     void showText(List<Comic> data);
+    void showTextFromCache(List<Comic> cachedData);
 }

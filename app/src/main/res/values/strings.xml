@@ -7,4 +7,5 @@
     <string name="purchase_btn_find_text">Find</string>
     <string name="nonetworkmessage">Even the Spiderman needs a web connection</string>
     <string name="snackbaraction">Dismiss</string>
+    <string name="cachepresentmessage">But, We can show you some data from: %1$s</string>
 </resources>

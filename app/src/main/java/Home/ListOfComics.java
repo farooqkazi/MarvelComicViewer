@@ -1,5 +1,6 @@
 package Home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,7 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import Model.LocalDataSource;
 import Purchase.Purchase;
 import com.example.marvelcomicsviewer.R;
 
@@ -23,6 +26,7 @@ import java.util.List;
 import ComicDetails.ComicDetails;
 import Model.Comic;
 import Model.Constants;
+import Util.DateHelper;
 import Util.NetworkHelper;
 
 public class ListOfComics extends AppCompatActivity implements ListOfComicsView{
@@ -39,6 +43,7 @@ public class ListOfComics extends AppCompatActivity implements ListOfComicsView{
         mRecyclerView.setAdapter(mListOfMoviesAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mPresenter = new ListOfComicsPresenterImpl(this);
+        mPresenter.onCreate(this);
         getRemoteData();
         FloatingActionButton purchase = (FloatingActionButton) findViewById(R.id.listofhome_fab_buy);
         purchase.setOnClickListener(new View.OnClickListener() {
@@ -55,28 +60,43 @@ public class ListOfComics extends AppCompatActivity implements ListOfComicsView{
             mPresenter.getRemoteData(Constants.COMICS_ENDPOINT);
         }
         else{
-          final Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),getResources().getString(R.string.nonetworkmessage)
-                    ,Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(getResources().getString(R.string.snackbaraction), new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    snackbar.dismiss();
-                }
-            });
-            TextView snackText = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
-            snackText.setMaxLines(5);
-            snackbar.show();
+            showSnackBar(getResources().getString(R.string.nonetworkmessage));
+            mPresenter.tryAndGetLocalData();
         }
 
     }
 
+    private void showSnackBar(String text){
+        final Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), text,
+                Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(getResources().getString(R.string.snackbaraction), new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        });
+        TextView snackText = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+        snackText.setMaxLines(5);
+        snackbar.show();
+    }
 
     @Override
     public void showText(List<Comic> data) {
         mListOfComics.clear();
         mListOfComics.addAll(data);
         mListOfMoviesAdapter.notifyDataSetChanged();
-        Log.d("in main", data.get(0).getTitle());
+
+    }
+
+    @Override
+    public void showTextFromCache(List<Comic> cachedData) {
+        if(cachedData.size()>0) {
+            long timeUpdated = getSharedPreferences(LocalDataSource.PREFERENCES_FILE_NAME,
+                    Context.MODE_PRIVATE).getLong(LocalDataSource.TIME_UPDATED_KEY, System.currentTimeMillis());
+            String text = String.format(getResources().getString(R.string.cachepresentmessage), DateHelper.getReadableDate(timeUpdated));
+            Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+            showText(cachedData);
+        }
     }
 
     public class ListOfComicsAdapter extends RecyclerView.Adapter<ListOfComicsAdapter.ViewHolder>{
