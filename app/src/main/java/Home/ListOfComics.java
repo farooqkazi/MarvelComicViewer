@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,10 +35,12 @@ public class ListOfComics extends AppCompatActivity implements ListOfComicsView{
     private RecyclerView mRecyclerView;
     private ListOfComicsAdapter mListOfMoviesAdapter;
     private List<Comic> mListOfComics = new ArrayList<Comic>();
+    private ProgressBar mProgress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_comics);
+        mProgress = (ProgressBar) findViewById(R.id.list_of_comics_pb_progress);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_list_of_comics);
         mListOfMoviesAdapter = new ListOfComicsAdapter(mListOfComics);
         mRecyclerView.setAdapter(mListOfMoviesAdapter);
@@ -79,9 +82,12 @@ public class ListOfComics extends AppCompatActivity implements ListOfComicsView{
         snackText.setMaxLines(5);
         snackbar.show();
     }
-
+    private void showProgressBar(boolean visibility){
+        mProgress.setVisibility(visibility?View.VISIBLE:View.GONE);
+    }
     @Override
     public void showText(List<Comic> data) {
+        showProgressBar(false);
         mListOfComics.clear();
         mListOfComics.addAll(data);
         mListOfMoviesAdapter.notifyDataSetChanged();
@@ -90,6 +96,7 @@ public class ListOfComics extends AppCompatActivity implements ListOfComicsView{
 
     @Override
     public void showTextFromCache(List<Comic> cachedData) {
+        showProgressBar(false);
         if(cachedData.size()>0) {
             long timeUpdated = getSharedPreferences(LocalDataSource.PREFERENCES_FILE_NAME,
                     Context.MODE_PRIVATE).getLong(LocalDataSource.TIME_UPDATED_KEY, System.currentTimeMillis());
